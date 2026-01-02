@@ -1,15 +1,12 @@
 const express = require("express");
 const {
-    getUser, getUsers, signup, login
+    get, getById, signup, login
 } = require("../controllers/user.controller.js");
 
-const {
-    authGuard, authorizeRoles
-} = require("../middlewares/authMiddleware.js");
 const router = express.Router();
 
-router.get("/", getUser);
-router.get("/:id", getUsers);
+router.get("/", get);
+router.get("/:id", getById);
 router.post("/signup", signup);
 router.post("/login", login);
 

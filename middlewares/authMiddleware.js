@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { errorResponse } = require("../utils/response.js");
 
+require("dotenv").config();
+
 // ✅ Authenticate JWT
 const authGuard = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -10,9 +12,8 @@ const authGuard = (req, res, next) => {
   }
 
   const token = authHeader.split(" ")[1];
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.user = decoded; // attach user info (id, email, role, etc.)
     next();
   } catch (err) {

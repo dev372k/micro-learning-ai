@@ -4,12 +4,14 @@ const User = require('../models/user.model.js');
 const asyncHandler = require('../middlewares/asyncHandler.js');
 const { successResponse, errorResponse } = require('../utils/response.js');
 
-const getUsers = asyncHandler(async (req, res) => {
-    const users = await User.find();
+require("dotenv").config();
+
+const get = asyncHandler(async (req, res) => {
+    const users = await User.find().select('-passwordHash');
     successResponse(res, users);
 });
 
-const getUser = asyncHandler(async (req, res) => {
+const getById = asyncHandler(async (req, res) => {
     const userId = req.params.id;
     const user = await User.findOne({ _id: userId });
     successResponse(res, user);
@@ -54,7 +56,7 @@ const login = asyncHandler(async (req, res) => {
 
     // generate token
     const token = jwt.sign(
-        { userId: user._id, role: user.role, username: user.username, email: user.email },
+        { id: user._id, role: user.role, username: user.username, email: user.email },
         process.env.JWT_SECRET_KEY || 'your_jwt_secret_key',
         { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
@@ -62,4 +64,4 @@ const login = asyncHandler(async (req, res) => {
     successResponse(res, { token });
 });
 
-module.exports = { getUser, getUsers, signup, login };
+module.exports = { get, getById, signup, login };

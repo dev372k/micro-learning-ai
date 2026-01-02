@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./routes/user.routes.js");
+const courseRoutes = require("./routes/course.routes.js");
 
 require("dotenv").config();
 
@@ -31,6 +32,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/courses", courseRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 3000;
