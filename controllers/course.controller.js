@@ -11,8 +11,7 @@ const create = asyncHandler(async (req, res) => {
         duration,
         user: req.user.id,
     });
-
-    console.log('Generating course contents');
+    
     await generateCourse(title, duration).then(async (contents) => {
         for (let day = 1; day <= contents.length; day++) {
             const contentData = contents[day - 1];
