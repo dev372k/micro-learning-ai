@@ -9,9 +9,17 @@ const getCourseContent = asyncHandler(async (req, res) => {
     successResponse(res, content);
 });
 
-const getById = asyncHandler(async (req, res) => {
-    const courses = await Course.find({ user: req.user.id });
-    successResponse(res, courses);
+const getByDay = asyncHandler(async (req, res) => {
+    const content = await Content.findOne({
+        course: req.params.id,
+        day: Number(req.params.day)
+    });
+
+    if (!content) {
+        return errorResponse(res, "Content not found for this course and day");
+    }
+
+    successResponse(res, content);
 });
 
 const markAsDone = asyncHandler(async (req, res) => {
@@ -32,7 +40,7 @@ const markAsDone = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "Content not found" });
     }
 
-    if (content.isDone) {
+    if (!content.isDone) {
         content.isDone = true;
         await content.save();
 
@@ -42,12 +50,11 @@ const markAsDone = asyncHandler(async (req, res) => {
         }
     }
 
-    successResponse(res, course, message="Marked as done.");
+    successResponse(res, content, message = "Marked as done.");
 });
-
 
 module.exports = {
     getCourseContent,
-    getById,
-    markAsDone
+    getByDay,
+    markAsDone,
 };

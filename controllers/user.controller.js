@@ -23,7 +23,7 @@ const signup = asyncHandler(async (req, res) => {
     // check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser)
-        errorResponse(res, message = 'User already exists');
+        return errorResponse(res, message = 'User already exists');
 
     // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -47,12 +47,12 @@ const login = asyncHandler(async (req, res) => {
     // check if user exists
     const user = await User.findOne({ email });
     if (!user)
-        errorResponse(res, message = 'User does not exist');
+        return errorResponse(res, message = 'User does not exist');
 
     // hash password
     const verifyHash = await bcrypt.compare(password, user.passwordHash);
     if (!verifyHash)
-        errorResponse(res, message = 'Invalid credentials');
+        return errorResponse(res, message = 'Invalid credentials');
 
     // generate token
     const token = jwt.sign(

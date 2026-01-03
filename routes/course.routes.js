@@ -3,7 +3,7 @@ const {
     create, remove, get
 } = require("../controllers/course.controller.js");
 const {
-    getCourseContent, markAsDone
+    getCourseContent, markAsDone, getByDay
 } = require("../controllers/content.controller.js");
 const {
     authGuard, authorizeRoles
@@ -18,6 +18,7 @@ router.delete("/:id", authGuard, remove);
 
 // Content Routes
 router.get("/:id/content", authGuard, getCourseContent);
+router.get("/:id/content/:day", authGuard, getByDay);
 router.put("/:id/content/:contentId", authGuard, markAsDone);
 
 module.exports = router;
