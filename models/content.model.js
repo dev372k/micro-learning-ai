@@ -20,6 +20,10 @@ const contentSchema = new mongoose.Schema(
       default: 'article',
       required: true,
     },
+    isDone: {
+      type: Boolean,
+      default: false
+    },
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Course', // 👈 Course model reference

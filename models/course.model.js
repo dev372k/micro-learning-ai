@@ -10,6 +10,10 @@ const courseSchema = new mongoose.Schema(
         type: Number,
         default: 7,
     },
+    progress: {
+      type: Number,
+      default:0
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User', // 👈 User model reference
